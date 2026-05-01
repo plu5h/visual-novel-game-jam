@@ -1,0 +1,79 @@
+# warning-ignore-all:return_value_discarded
+
+extends Control
+
+@onready var choice_btn = load("res://Scenes/Dialog_Button.tscn")
+@onready var _ink_player = InkPlayerFactory.create()
+@onready var _btns = []
+
+
+func _ready():
+	add_child(_ink_player)
+	_ink_player.ink_file = load("res://Ink/test_ink.ink.json")
+	
+	_ink_player.loads_in_background = true
+	_ink_player.connect("loaded", Callable(self, "_story_loaded"))
+	_ink_player.create_story()
+
+func _story_loaded(successfully: bool):
+	if !successfully:
+		print("Not loaded")
+		return
+
+	_observe_variables()
+	# _bind_externals()
+
+	_continue_story()
+
+func _continue_story():
+	while _ink_player.can_continue:
+		var text = _ink_player.continue_story()
+		
+		var dialog_text = get_node("ColorRect/Dialog")
+		dialog_text.text = text
+		
+	if _ink_player.has_choices:
+		
+		for choice in _ink_player.current_choices:
+			var button = choice_btn.instantiate()
+			button.text = choice.text
+			
+			button.connect("pressed", Callable(self, "_index_choose").bind(button))
+			
+			_btns.append(button)
+			$ColorRect/ChoiceContainer.add_child(button)
+			
+		
+			
+	else:
+		print("The End")
+
+func _index_choose(button):
+	var index = _btns.find(button)
+	if index != -1:
+		_select_choice(index)
+
+func _select_choice(index):
+	for button in $ColorRect/ChoiceContainer.get_children():
+		$ColorRect/ChoiceContainer.remove_child(button)
+		_btns.erase(button)
+		
+	_ink_player.choose_choice_index(index)
+	_continue_story()
+	
+
+
+
+# Uncomment to bind an external function.
+#
+# func _bind_externals():
+# 	_ink_player.bind_external_function("<function_name>", self, "_external_function")
+#
+# func _external_function(arg1, arg2):
+# 	pass
+
+func _observe_variables():
+	_ink_player.observe_variables(["argent_en_poche"], self, "_variable_changed")
+
+func _variable_changed(variable_name, new_value):
+	print("Variable '%s' changed to: %s" %[variable_name, new_value])

@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://bu7dbrbrdg2s6"]
+
+[node name="Dialog_Button" type="Button"]
+offset_right = 468.0
+offset_bottom = 247.0
+size_flags_horizontal = 6
+size_flags_vertical = 6
+text = "choice"
