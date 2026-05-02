@@ -1,23 +1,35 @@
-[gd_scene load_steps=2 format=3 uid="uid://bnwpqnt623jwt"]
+[gd_scene load_steps=4 format=3 uid="uid://bnwpqnt623jwt"]
 
-[ext_resource type="Script" uid="uid://cuaiqrujxbext" path="res://Scripts/Ink_handler.gd" id="1_k7axu"]
+[ext_resource type="Script" uid="uid://cuaiqrujxbext" path="res://Scenes/Ink_handler.gd" id="1_k7axu"]
+[ext_resource type="Script" uid="uid://b2xkpltfw08ki" path="res://Scenes/Dialog/dialog_box.gd" id="2_cynse"]
 
-[node name="Control" type="Control"]
+[sub_resource type="GDScript" id="GDScript_l5htm"]
+
+[node name="InkHandler" type="Control"]
 layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_k7axu")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="Background" type="TextureRect" parent="."]
+z_index = -4096
 layout_mode = 0
-offset_left = 19.0
+offset_right = 1149.0
+offset_bottom = 648.0
+mouse_filter = 2
+
+[node name="DialogBox" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 32.0
 offset_top = 422.0
 offset_right = 1113.0
 offset_bottom = 644.0
+script = ExtResource("2_cynse")
 
-[node name="Dialog" type="Label" parent="ColorRect"]
+[node name="DialogLabel" type="Label" parent="DialogBox"]
 layout_mode = 0
 offset_left = 22.0
 offset_top = 15.0
@@ -25,10 +37,28 @@ offset_right = 1066.0
 offset_bottom = 125.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "blabla le dialogue"
+script = SubResource("GDScript_l5htm")
 
-[node name="ChoiceContainer" type="HBoxContainer" parent="ColorRect"]
+[node name="Timer" type="Timer" parent="DialogBox/DialogLabel"]
+wait_time = 0.003
+
+[node name="ChoiceContainer" type="HBoxContainer" parent="DialogBox"]
 layout_mode = 0
 offset_left = 9.0
 offset_top = 141.0
 offset_right = 1086.0
 offset_bottom = 216.0
+
+[node name="ArrowIndicator" type="Label" parent="DialogBox"]
+layout_mode = 0
+offset_left = 1042.0
+offset_top = 177.0
+offset_right = 1080.0
+offset_bottom = 221.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 31
+text = "▼"
+
+[connection signal="show_choices_if_needed" from="DialogBox" to="." method="_on_dialog_box_show_choices_if_needed"]
+[connection signal="trigger_continue" from="DialogBox" to="." method="_on_dialog_box_trigger_continue"]
+[connection signal="timeout" from="DialogBox/DialogLabel/Timer" to="DialogBox" method="_on_timer_timeout"]

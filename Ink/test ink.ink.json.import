@@ -1,0 +1,15 @@
+[remap]
+
+importer="inkgd.ink.json"
+type="Resource"
+uid="uid://gpamf5v10vi6"
+path="res://.godot/imported/test ink.ink.json-957283b9d56757adf3696f475da19802.res"
+
+[deps]
+
+source_file="res://Ink/test ink.ink.json"
+dest_files=["res://.godot/imported/test ink.ink.json-957283b9d56757adf3696f475da19802.res"]
+
+[params]
+
+compress=true

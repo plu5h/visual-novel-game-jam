@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://dimqa6re7dvxg"]
+
+[node name="Sprite" type="TextureRect"]
+offset_right = 400.0
+offset_bottom = 534.0
+size_flags_horizontal = 6
+size_flags_vertical = 6
