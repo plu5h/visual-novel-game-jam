@@ -74,6 +74,8 @@ func process_tags(tags: Array):
 
 func load_background(bg: String):
 	var tex = load("res://Assets/Backgrounds/%s.png" % bg)
+	TransitionScreen.transition()
+	await TransitionScreen.on_transition_finished
 	$Background.texture = tex
 	
 

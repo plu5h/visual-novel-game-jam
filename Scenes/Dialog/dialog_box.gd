@@ -24,6 +24,7 @@ func _input(event):
 
 
 func start_typing(text_line: String):
+	$ArrowIndicator.hide()
 	dialog_text = text_line.strip_edges()
 	state = states.TYPING
 	current_length=0
